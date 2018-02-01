@@ -16,13 +16,25 @@ public class TigerChat extends JavaPlugin {
 		
 		this.config = new Config(this);
 		
+		this.config.create();
+		this.config.check();
+		
 		this.sOver = new SpamOverview(this);
 		this.lOver = new ListenerOverview(this);
 		
+		this.config.load();
 	}
 	
 	@Override
 	public void onDisable() {
 		
+	}
+	
+	public SpamOverview getSpamOverview() {
+		return this.sOver;
+	}
+	
+	public ListenerOverview getListenerOverview() {
+		return this.lOver;
 	}
 }

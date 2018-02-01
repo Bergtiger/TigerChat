@@ -1,5 +1,6 @@
 package de.bergtiger.tigerchat.spam;
 
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

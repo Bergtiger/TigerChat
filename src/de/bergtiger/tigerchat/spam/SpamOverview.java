@@ -1,5 +1,9 @@
 package de.bergtiger.tigerchat.spam;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +20,7 @@ public class SpamOverview {
 	
 	public SpamOverview(TigerChat plugin) {
 		this.plugin = plugin;
+		this.loadFilters();
 	}
 	
 	/**
@@ -90,5 +95,70 @@ public class SpamOverview {
 				}
 			}
 		});
+	}
+	
+	private void loadFilters() {
+		File file = new File("plugins/" + this.plugin.getName() + "/filter");
+		if(file.exists()) {
+			if(file.isDirectory()) {
+				String[] files = file.list();
+				for(int i = 0; i < files.length; i++) {
+					this.loadFilter(files[i]);
+				}
+			}
+		}
+	}
+	
+	private void loadFilter(String file) {
+		System.out.println(1);
+		this.plugin.getLogger().info("loading filter " + file);
+		System.out.println(2);
+//		ClassLoader parentLoader = this.getClass().getClassLoader();
+		System.out.println(3);
+		try {
+			URL[] urls = {new File("plugins/" + this.plugin.getName() + "/filter").toURI().toURL()};
+			System.out.println(4);
+			for(URL blub: urls) {
+				System.out.println(blub.toString());
+			}
+////			URLClassLoader loader1 = new URLClassLoader(new URL[] {(new URL(file.toString()))}, parentLoader);
+////			URLClassLoader loader1 = new URLClassLoader(urls, parentLoader);
+//			URLClassLoader loader1 = new URLClassLoader(urls);
+//			
+//			System.out.println(5);
+//			System.out.println(loader1.findResource(file));
+//			System.out.println(51);
+//			
+//			String args = file.substring(0, file.indexOf(".class"));
+//			System.out.println("52 " + args);
+//			
+//			Class cls1 = loader1.loadClass(args);
+//			
+////			Class cls1 = loader1.loadClass(file);
+//			
+//			System.out.println(6);
+//			
+//			SpamFilter filter = (SpamFilter) cls1.newInstance();
+//			
+//			System.out.println(7);
+			System.out.println(5);
+			ClassLoader cl = new URLClassLoader(urls);
+			System.out.println(6);
+			Object o = Class.forName("de.bergtiger.tigerchat.spam.EqualsFilter", true, cl).newInstance();
+			System.out.println(7);
+			
+		} catch (MalformedURLException e) {
+			this.plugin.getLogger().info("could not load filterURL (" + file + ")");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			this.plugin.getLogger().info("could not find filterCLass (" + file + ")");
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			this.plugin.getLogger().info("could not initiate filterCLass (" + file + ")");
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			this.plugin.getLogger().info("what are you doing there! (" + file + ")");
+			e.printStackTrace();
+		}
 	}
 }
