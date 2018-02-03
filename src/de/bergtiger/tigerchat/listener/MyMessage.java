@@ -56,6 +56,12 @@ public class MyMessage extends MyListener {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 * @param format
+	 * @return
+	 */
 	private String setFormat(Player p, String format){
 		if(this.permEx){
 			PermissionUser user = PermissionsEx.getPermissionManager().getUser(p);
@@ -66,6 +72,12 @@ public class MyMessage extends MyListener {
 		}
 	}
 	
+	
+	/**
+	 * @param p Player(need for permission)
+	 * @param message
+	 * @return message with replaced color codes
+	 */
 	private String setColor(Player p, String message){
 		if(p.hasPermission(MyPermission.ADMIN.get()) || p.hasPermission(MyPermission.CHAT_COLOR.get())){
 			message = message.replaceAll("&0", ChatColor.BLACK.toString())

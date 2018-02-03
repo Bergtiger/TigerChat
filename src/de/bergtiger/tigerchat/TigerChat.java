@@ -23,6 +23,7 @@ public class TigerChat extends JavaPlugin {
 		this.lOver = new ListenerOverview(this);
 		
 		this.config.load();
+		this.lOver.aktivate();
 	}
 	
 	@Override

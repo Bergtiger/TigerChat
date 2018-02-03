@@ -26,9 +26,18 @@ public class MyListener implements Listener{
 	}
 	
 	/**
-	 * disables Listener
+	 * disables Listener (short reaktivate)
 	 */
 	public void disable() {
+		if(aktiv) {
+			HandlerList.unregisterAll(this);
+		}
+	}
+	
+	/**
+	 * save end
+	 */
+	public final void end() {
 		if(aktiv) {
 			HandlerList.unregisterAll(this);
 		}
